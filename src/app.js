@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
 import React from 'react';
 import { render } from 'react-dom';
 import log from 'loglevel';
-import { init, config, getManifest } from 'd2/lib/d2';
+import { init, config, getManifest, getInstance as getD2 } from 'd2/lib/d2';
 
 import LoadingMask from 'd2-ui/lib/loading-mask/LoadingMask.component';
 
@@ -21,6 +21,8 @@ import LoadingMask from 'd2-ui/lib/loading-mask/LoadingMask.component';
 import 'react-tap-event-plugin';
 
 import App from './app/App';
+import schemaActions from './schema/schema.actions';
+
 import './app/app.scss';
 
 // Render the a LoadingMask to show the user the app is in loading
@@ -30,10 +32,11 @@ render(<LoadingMask />, document.getElementById('app'));
 
 /**
  * Renders the application into the page.
- *
- * @param d2 Instance of the d2 library that is returned by the `init` function.
  */
 function startApp(d2) {
+    // TODO: Remove global
+    window.d2 = d2;
+
     render(<App d2={d2} />, document.querySelector('#app'));
 }
 
@@ -49,5 +52,7 @@ getManifest('./manifest.webapp')
         config.baseUrl = `${baseUrl}/api`;
     })
     .then(init)
+    .then(() => schemaActions.init().toPromise())
+    .then(getD2)
     .then(startApp)
     .catch(log.error.bind(log));

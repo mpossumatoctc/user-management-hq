@@ -1,0 +1,38 @@
+/* TODO: FIX ME - this is all around hacky css */
+
+.sidebar-nested {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    background-color: transparent !important;
+}
+
+.sidebar-nested .inactive-item {
+    font-size: 14px !important;
+    border-radius: 5px !important;
+    margin: 0px 8px !important;
+}
+
+.sidebar-nested .active-item {
+    font-size: 14px !important;
+    border-radius: 5px !important;
+    margin: 0px 8px !important;
+    font-weight: 700 !important;
+    color: #2196f3 !important;
+    background-color: #e0e0e0 !important;
+}
+
+.sidebar-nested.level-1 .inactive-item > *, .sidebar-nested.level-1 .active-item > * {
+    padding-left: 16px !important;
+}
+
+.sidebar-nested.level-2 .inactive-item > *, .sidebar-nested.level-2 .active-item > * {
+    padding-left: 32px !important;
+}
+
+.sidebar-nested.level-3 .inactive-item > *, .sidebar-nested.level-3 .active-item > * {
+    padding-left: 48px !important;
+}
+
+.sidebar-nested.level-4 .inactive-item > *, .sidebar-nested.level-4 .active-item > * {
+    padding-left: 64px !important;
+}

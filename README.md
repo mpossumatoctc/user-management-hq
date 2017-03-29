@@ -1,5 +1,9 @@
-d2 Starter app
-==============
+User Management HQ
+==================
+
+## Alpha Code
+The following code is in alpha stage and is subject to a lot of changes.
+
 
 ## Prerequisites
 Make sure you have at least the following versions of `node` and `npm`.

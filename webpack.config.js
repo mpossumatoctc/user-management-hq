@@ -4,6 +4,8 @@ var webpack = require('webpack');
 var path = require('path');
 var colors = require('colors');
 
+const port = 8000;
+
 const isDevBuild = process.argv[1].indexOf('webpack-dev-server') !== -1;
 const dhisConfigPath = process.env.DHIS2_HOME && `${process.env.DHIS2_HOME}/config`;
 let dhisConfig;
@@ -35,7 +37,7 @@ const webpackConfig = {
     output: {
         path: __dirname + '/build',
         filename: 'app.js',
-        publicPath: 'http://localhost:8081/',
+        publicPath: `http://localhost:${port}/`,
     },
     module: {
         loaders: [
@@ -66,16 +68,17 @@ const webpackConfig = {
     devServer: {
         progress: true,
         colors: true,
-        port: 8081,
+        port: port,
         inline: true,
         compress: true,
         proxy: [
             { path: '/api/*', target: dhisConfig.baseUrl, bypass: log },
-            { path: '/dhis-web-commons/*', target: dhisConfig.baseUrl, bypass: log },
+            { path: '/dhis-web-commons/**', target: dhisConfig.baseUrl, bypass: log },
             { path: '/icons/*', target: dhisConfig.baseUrl, bypass: log },
-            { path: '/css/*', target: 'http://localhost:8081/build', bypass: log },
-            { path: '/jquery.min.js', target: 'http://localhost:8081/node_modules/jquery/dist', bypass: log },
-            { path: '/polyfill.min.js', target: 'http://localhost:8081/node_modules/babel-polyfill/dist', bypass: log },
+            { path: '/css/*', target: `http://localhost:${port}/build`, bypass: log },
+            { path: '/i18n/*', target: `http://localhost:${port}/build`, bypass: log },
+            { path: '/jquery.min.js', target: `http://localhost:${port}/node_modules/jquery/dist`, bypass: log },
+            { path: '/polyfill.min.js', target: `http://localhost:${port}/node_modules/babel-polyfill/dist`, bypass: log }
         ],
     },
 };
