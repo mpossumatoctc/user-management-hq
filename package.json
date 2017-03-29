@@ -73,12 +73,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dhis2/app-skeleton.git"
+    "url": "git+https://github.com/mpossumatoctc/user-management-hq.git"
   },
   "bugs": {
-    "url": "https://github.com/dhis2/app-skeleton/issues"
+    "url": "https://github.com/mpossumatoctc/user-management-hq/issues"
   },
-  "homepage": "https://github.com/dhis2/app-skeleton#readme",
+  "homepage": "https://github.com/mpossumatoctc/user-management-hq#readme",
   "manifest.webapp": {
     "icons": {
       "48": "icon.png"
