@@ -11,6 +11,8 @@ import DynamicDataTable from '../dynamic/datatable.component';
 import navigationActions from '../navigation/navigation.actions';
 import schemaStore from '../schema/schema.store';
 
+import { getModelAction } from '../actions';
+
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 
 export default React.createClass({
@@ -77,6 +79,8 @@ export default React.createClass({
 
         const currentSectionKey = currentSection ? currentSection.key : null;
 
+        const modelAction = getModelAction(currentModel);
+
         return (
             <div className="app-wrapper">
                 <HeaderBar />
@@ -86,7 +90,7 @@ export default React.createClass({
                     onChangeSection={this.onChangeSection}
                 />
                 <div className="main-content">
-                    <DynamicDataTable section={currentSection} model={currentModel} views={views} />
+                    <DynamicDataTable section={currentSection} model={currentModel} modelAction={modelAction} views={views} />
                 </div>
             </div>
         );

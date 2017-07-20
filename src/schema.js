@@ -12,7 +12,12 @@ const schema = {
                 "$user_groups_count": "Groups",
                 "$user_count": "Associated Users",
                 "$ui_status": "Status",
-                "$authorities_count": "Authorities"
+                "$authorities_count": "Authorities",
+
+                "enableUser": "Enable User",
+                "enableUsers": "Enable Users",
+                "disableUser": "Disable User",
+                "disableUsers": "Disable Users"
             }
         }
     },
