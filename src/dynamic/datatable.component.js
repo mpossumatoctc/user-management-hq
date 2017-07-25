@@ -9,7 +9,10 @@ import DetailsComponent from './details.component';
 import camelCaseToUnderscores from 'd2-utilizr/lib/camelCaseToUnderscores';
 
 import IconButton from 'material-ui/lib/icon-button';
+import RaisedButton from 'material-ui/lib/raised-button';
+
 import MoreVert from 'material-ui/lib/svg-icons/navigation/more-vert';
+import Add from 'material-ui/lib/svg-icons/content/add';
 import Dialog from 'material-ui/lib/dialog';
 import LinearProgress from 'material-ui/lib/linear-progress';
 
@@ -137,6 +140,10 @@ class DataTableComponent extends DynamicComponent {
         updateState();
     }
 
+    createNewModel() {
+        this.setState({ newModel: { name: null } });
+    }
+
     iconMenuClick(evt, model) {
         evt.preventDefault();
         evt.stopPropagation();
@@ -194,6 +201,26 @@ class DataTableComponent extends DynamicComponent {
         );
     }
 
+    getNewModelDialog() {
+        const { section } = this.props;
+        const { newModel } = this.state;
+        if (!newModel) { return null; }
+
+        const name = section.label.replace(/s$/, '');
+
+        const actions = [
+            <RaisedButton label="Cancel" primary={true} onTouchTap={() => this.setState({ newModel: false })} />
+        ];
+
+        return (
+            <Dialog title={`Create new ${name}`} modal={true} open={true} actions={actions}>
+                {
+                    Object.keys(newModel).map(key => null)
+                }
+            </Dialog>
+        );
+    }
+
     render() {
         const { section, model, modelAction, views } = this.props;
         const { dataSource, selectedModel, selectedIndices, isExecuting = false, progress = 0 } = this.state;
@@ -221,6 +248,13 @@ class DataTableComponent extends DynamicComponent {
             />
         );
 
+        const actions = [];
+        if (section && section.permissions && section.permissions.create) {
+            actions.push(
+                <RaisedButton label={`Create new ${section.label.replace(/s$/, '')}`} onClick={(evt) => this.createNewModel()} icon={<Add />} /> 
+            );
+        }
+
         const selectedModelDefinition = selectedModel ? selectedModel.modelDefinition : null;
         const detailView = (!selectedModelDefinition || !views[selectedModelDefinition.name]) ? null :
             this.getDynamicView(views[selectedModelDefinition.name], {
@@ -233,13 +267,18 @@ class DataTableComponent extends DynamicComponent {
             { width: '65%', paddingRight: '20px', display: 'table-cell' } :
             { width: '100%', paddingRight: 'initial', display: 'block' };
 
+        const newDialog = this.getNewModelDialog();
+
         return (
             <div>
-                <div style={{ float: "left", lineHeight: "40px" }}>
+                <div style={{ float: "left", lineHeight: "36px" }}>
                     Showing {rows.size.toLocaleString()} of {recordTotal} total {section.label.toLowerCase()}.
                 </div>
+                <div style={{ float: 'right' }}>
+                    {actions}
+                </div>
                 {pager}
-                <div style={{ clear: 'both' }}></div>
+                <div style={{ clear: 'both', height: '16px' }}></div>
                 <div style={dataTableStyle}>
                     <Table multiSelectable={true} onRowSelection={(indices) => this.onRowSelection(indices)}>
                         <TableHeader>
@@ -274,6 +313,7 @@ class DataTableComponent extends DynamicComponent {
                     {hasActions ? this.renderContextMenu() : null}
                 </div>
                 {detailView}
+                {newDialog}
                 <Dialog title="Saving Data" modal={true} open={isExecuting}>
                     <LinearProgress mode="determinate" value={progress} />
                     <span style={{ margin: '10px', textAlign: 'center', display: 'block', marginTop: '28px' }}>

@@ -179,6 +179,9 @@ const schema = {
                 "comparator": "ilike",
                 "filterValue": "this"
             }]
+        },
+        "permissions": {
+            "create": true
         }
     }, {
         "key": "roles",
